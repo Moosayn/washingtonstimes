@@ -79,8 +79,12 @@ async function uploadArticlesToCMS() {
           else if (section.includes('entertain')) category = "Entertainment";
         }
         
-        // Get image
-        const image = document.querySelector('meta[property="og:image"]')?.content || "";
+        // Get image - try multiple methods
+        const image = document.querySelector('meta[property="og:image"]')?.content || 
+                     document.querySelector('meta[name="twitter:image"]')?.content ||
+                     document.querySelector('.article-image img')?.src ||
+                     document.querySelector('#article-body img')?.src ||
+                     document.querySelector('article img')?.src || "";
         
         return { title, author, content, category, image };
       });
