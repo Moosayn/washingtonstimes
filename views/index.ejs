@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Washington Times - Breaking News, US News, World News</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+  <%- include('partials/header') %>
+  
+  <!-- Trending Bar -->
+  <div class="trending-bar">
+    <div class="container">
+      <span class="trending-label">TRENDING:</span>
+      <a href="#">DONALD TRUMP</a>
+      <a href="#">CHINA</a>
+      <a href="#">JEFFREY EPSTEIN</a>
+      <a href="#">ISRAEL</a>
+      <a href="#">LOS ANGELES</a>
+      <a href="#">RUSSIA</a>
+      <a href="#">WASHINGTON</a>
+      <a href="#">WHITE HOUSE</a>
+      <a href="#">CHICAGO</a>
+      <a href="#">GAZA</a>
+    </div>
+  </div>
+  
+  <main class="container">
+    <!-- Latest from The Washington Times Header -->
+    <section class="latest-header">
+      <h2>Latest from The Washington Times</h2>
+    </section>
+
+    <!-- Article List - Simple Vertical Layout -->
+    <div class="articles-list">
+      <% articles.forEach((article, index) => { %>
+      <article class="article-item">
+        <% if (article.image && index < 5) { %>
+        <div class="article-image">
+          <img src="<%= article.image %>" alt="<%= article.title %>">
+        </div>
+        <% } %>
+        <div class="article-content">
+          <h3><a href="/article/<%= article.slug %>"><%= article.title %></a></h3>
+          <p class="article-excerpt"><%= article.content.substring(0, 150) %>...</p>
+          <p class="article-meta">
+            By <span class="author-name"><%= article.author %></span> • <%= new Date(article.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
+            <a href="/article/<%= article.slug %>" class="read-more">Read more →</a>
+          </p>
+        </div>
+      </article>
+      <% }); %>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

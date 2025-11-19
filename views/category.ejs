@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= category %> - WashingtonsTimes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+  <%- include('partials/header') %>
+  
+  <main class="container">
+    <section class="category-page">
+      <h1 class="page-title"><%= category.charAt(0).toUpperCase() + category.slice(1) %></h1>
+      
+      <div class="news-grid">
+        <div class="main-column">
+          <% articles.forEach(article => { %>
+            <article class="news-card">
+              <% if (article.image) { %>
+              <div class="news-card-image">
+                <img src="<%= article.image %>" alt="<%= article.title %>">
+              </div>
+              <% } %>
+              <div class="news-card-content">
+                <span class="category-tag"><%= article.category %></span>
+                <h2><a href="/article/<%= article.slug %>"><%= article.title %></a></h2>
+                <div class="article-meta">
+                  <span class="author">By <%= article.author %></span>
+                  <span class="date"><%= new Date(article.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></span>
+                </div>
+                <p class="excerpt"><%= article.content.substring(0, 150) %>...</p>
+              </div>
+            </article>
+          <% }); %>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Build Offline Archive",
+      "program": "${workspaceFolder}/archive.js",
+      "preLaunchTask": "npm: install"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "npm: install",
+      "type": "shell",
+      "command": "npm install",
+      "group": "build"
+    }
+  ]
+}
