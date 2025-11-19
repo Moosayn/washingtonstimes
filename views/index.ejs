@@ -28,32 +28,104 @@
   </div>
   
   <main class="container">
-    <!-- Latest from The Washington Times Header -->
-    <section class="latest-header">
-      <h2>Latest from The Washington Times</h2>
-    </section>
-
-    <!-- Article List - Simple Vertical Layout -->
-    <div class="articles-list">
-      <% articles.forEach((article, index) => { %>
-      <article class="article-item">
-        <% if (article.image && index < 5) { %>
-        <div class="article-image">
-          <img src="<%= article.image %>" alt="<%= article.title %>">
-        </div>
-        <% } %>
-        <div class="article-content">
-          <h3><a href="/article/<%= article.slug %>"><%= article.title %></a></h3>
-          <p class="article-excerpt"><%= article.content.substring(0, 150) %>...</p>
-          <p class="article-meta">
-            By <span class="author-name"><%= article.author %></span> • <%= new Date(article.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
-            <a href="/article/<%= article.slug %>" class="read-more">Read more →</a>
-          </p>
-        </div>
+    <!-- Top Featured Articles Row -->
+    <section class="top-featured">
+      <% const topArticles = articles.slice(0, 3); %>
+      <% topArticles.forEach((article, index) => { %>
+      <article class="top-article">
+        <img src="<%= article.image || 'https://via.placeholder.com/300x200?text=News' %>" alt="<%= article.title %>">
+        <h3><a href="/article/<%= article.slug %>"><%= article.title %></a></h3>
       </article>
       <% }); %>
+    </section>
+
+    <!-- Main 3-Column Layout -->
+    <div class="three-column-layout">
+      <!-- LEFT SIDEBAR -->
+      <aside class="left-sidebar">
+        <% const leftArticles = articles.slice(3, 8); %>
+        <% leftArticles.forEach(article => { %>
+        <article class="sidebar-item">
+          <img src="<%= article.image || 'https://via.placeholder.com/80x60?text=News' %>" alt="<%= article.title %>">
+          <h4><a href="/article/<%= article.slug %>"><%= article.title %></a></h4>
+        </article>
+        <% }); %>
+      </aside>
+
+      <!-- CENTER MAIN CONTENT -->
+      <section class="main-content">
+        <% const mainArticle = articles[8] || articles[0]; %>
+        <article class="featured-main">
+          <h2><a href="/article/<%= mainArticle.slug %>"><%= mainArticle.title %></a></h2>
+          <img src="<%= mainArticle.image || 'https://via.placeholder.com/600x400?text=Featured+News' %>" alt="<%= mainArticle.title %>">
+          <p class="excerpt"><%= mainArticle.content.substring(0, 200) %>...</p>
+          <p class="byline">By <strong><%= mainArticle.author %></strong> - The Washington Times - <%= new Date(mainArticle.date).toLocaleDateString() %></p>
+        </article>
+
+        <hr style="margin: 30px 0; border-top: 2px solid #ddd;">
+
+        <!-- More Articles -->
+        <% const moreArticles = articles.slice(9, 15); %>
+        <% moreArticles.forEach(article => { %>
+        <article class="content-article">
+          <% if (article.image) { %>
+          <img src="<%= article.image %>" alt="<%= article.title %>">
+          <% } %>
+          <h3><a href="/article/<%= article.slug %>"><%= article.title %></a></h3>
+          <p class="excerpt"><%= article.content.substring(0, 150) %>...</p>
+          <p class="meta">By <%= article.author %> - The Washington Times</p>
+        </article>
+        <% }); %>
+
+        <!-- MY TIMES Section -->
+        <section class="my-times">
+          <h2>MY TIMES <a href="#" class="view-all">VIEW ALL →</a></h2>
+          <div class="my-times-grid">
+            <% articles.slice(15, 19).forEach(article => { %>
+            <article class="my-times-item">
+              <img src="<%= article.image || 'https://via.placeholder.com/200x150?text=News' %>" alt="<%= article.title %>">
+              <h4><a href="/article/<%= article.slug %>"><%= article.title %></a></h4>
+            </article>
+            <% }); %>
+          </div>
+        </section>
+      </section>
+
+      <!-- RIGHT SIDEBAR -->
+      <aside class="right-sidebar">
+        <!-- Follow Us -->
+        <div class="follow-box">
+          <h3>Follow Us</h3>
+          <div class="social-icons">
+            <a href="#" class="social">f</a>
+            <a href="#" class="social">𝕏</a>
+            <a href="#" class="social">in</a>
+            <a href="#" class="social">📷</a>
+            <a href="#" class="social">▶</a>
+          </div>
+          <input type="search" placeholder="Search">
+        </div>
+
+        <!-- Commentary -->
+        <div class="commentary-box">
+          <h3>COMMENTARY</h3>
+          <% articles.slice(0, 2).forEach(article => { %>
+          <div class="commentary-item">
+            <h4><a href="/article/<%= article.slug %>"><%= article.title.substring(0, 60) %>...</a></h4>
+            <p><%= article.author %></p>
+          </div>
+          <% }); %>
+        </div>
+
+        <!-- Sponsored Content -->
+        <div class="sponsored-box">
+          <h3>SPONSORED CONTENT</h3>
+          <div class="ad-placeholder">Advertisement</div>
+        </div>
+      </aside>
     </div>
   </main>
+        <!-- Follow Us -->
 
   <%- include('partials/footer') %>
 </body>
